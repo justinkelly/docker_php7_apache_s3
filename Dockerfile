@@ -266,6 +266,17 @@ ADD run.sh /run.sh
 ADD sync.sh /sync.sh
 RUN chmod 755 /*.sh
 
+
+# Add crontab file in the cron directory
+ADD crontab /etc/cron.d/s3-cron
+
+# Give execution rights on the cron job
+RUN chmod +x /etc/cron.d/s3-cron
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+
+
 ## CUSTOM - end
 
 COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
