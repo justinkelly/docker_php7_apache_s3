@@ -249,6 +249,25 @@ RUN set -eux; \
 	pecl update-channels; \
 	rm -rf /tmp/pear ~/.pearrc
 
+## CUSTOM - start
+
+ENV ALLOW_OVERRIDE **False**
+ENV VIRTUAL_HOST="your_domain"
+ENV AWS_ENDPOINT="AWS_ENDPOINT"
+ENV AWS_BUCKET="AWS_BUCKET"
+ENV AWS_REGION="AWS_REGION"
+ENV AWS_ACCESS_KEY_ID="AWS_ACCESS_KEY_ID"
+ENV AWS_SECRET_ACCESS_KEY="AWS_SECRET_ACCESS_KEY"
+
+# Add image configuration and scripts
+#ADD s3 /s3
+ADD mc /mc
+ADD run.sh /run.sh
+ADD sync.sh /sync.sh
+RUN chmod 755 /*.sh
+
+## CUSTOM - end
+
 COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 
 # sodium was built as a shared module (so that it can be replaced later if so desired), so let's enable it too (https://github.com/docker-library/php/issues/598)
